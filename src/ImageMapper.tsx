@@ -1,6 +1,6 @@
-import * as React from "react";
-import injectSheet, { StyledComponentProps, StyleCreator } from "react-jss";
-import classNames from "classnames";
+import injectSheet, { StyledComponentProps, StyleCreator } from 'react-jss';
+import classNames from 'classnames';
+import * as React from 'react';
 
 export interface IImageMapperProps extends StyledComponentProps {
   src: string;
@@ -17,11 +17,17 @@ export interface IImageMapperProps extends StyledComponentProps {
   strokeColor?: string;
 }
 
+export enum Shape {
+  poly =  "poly",
+  circle  = "circle",
+  rect = "rect"
+}
+
 export interface IImageMapperArea {
   id: string | number;
   coords: number[];
   href?: string;
-  shape: "poly" | "circle" | "rect";
+  shape: Shape;
   disabled?: boolean;
   selected?: boolean;
   fillStyle?: string;
