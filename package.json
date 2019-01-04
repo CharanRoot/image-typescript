@@ -6,11 +6,14 @@
   "dependencies": {
     "@types/react": "^16.7.18",
     "@types/react-jss": "8.6.0",
+    "@types/react-select": "^2.0.11",
     "classnames": "2.2.6",
+    "image-map-resizer": "^1.0.7",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-jss": "8.6.1",
-    "react-scripts-ts": "^2.13.0"
+    "react-scripts-ts": "^2.13.0",
+    "react-select": "^2.2.0"
   },
   "scripts": {
     "start": "react-scripts-ts start",
