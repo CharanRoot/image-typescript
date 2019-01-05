@@ -4,8 +4,6 @@ import { ThemeProvider } from "react-jss";
 //import imageMapResize from "image-map-resizer";
 import './App.css';
 import Select from 'react-select';
-
-
 import ImageMapper, { Shape, IImageMapperArea }from "./ImageMapper";
 
 const src = require('./Layout_Sample.jpg');
@@ -16,16 +14,17 @@ const options = [
   { value: 'ALL', label: 'ALL' },
   { value: 'E', label: 'EAST' },
   { value: 'W', label: 'WEST' },
+  { value: 'S', label: 'SOUTH' },
+  { value: 'N', label: 'NORTH' },
   { value: 'NW', label: 'NORTH WEST' },
   { value: 'SE', label: 'SOUTH WEST' },
   { value: 'NE', label: 'NORTH EAST' },
-  { value: 'W', label: 'WEST' },
-  { value: 'S', label: 'SOUTH' },
   { value: 'NW', label: 'NORTH WEST' },
 ];
 
 //const src = "https://c1.staticflickr.com/5/4052/4503898393_303cfbc9fd_b.jpg";
-const temp_area = [{shape:"poly" ,coords: [354, 714, 355, 786, 432, 786, 417, 712], title: "NE-776" },
+const temp_area = [
+  {shape:"poly" ,coords: [354, 714, 355, 786, 432, 786, 417, 712], title: "NE-776" },
 
 {shape:"rect" ,coords: [317, 714, 355, 789], title: "E-777" },
 
@@ -188,7 +187,7 @@ temp_area.forEach(area =>{
     direction: area.title.split('-')[0],
     selected: id%5 ===0 ? true : false,
     fillStyle: id%5 ===0 ? "rgba(0,0,0,0.9)": null
-  };
+  }; 
 
   areas.push(real_type);
 })
@@ -232,7 +231,7 @@ getTipPosition(area:real_estate) {
   if (!area) return { top: 0, left: 0 };
   // Calculate centroid
   const n = area.coords.length / 2;
-  console.log('getTipPosition');
+ // console.log('getTipPosition');
   const { y, x } = area.coords.reduce(({ y, x }, val, idx) => {
     return !(idx % 2) ? { y, x: x + (val / n) } : { y: y + (val / n), x };
   }, { y: 0, x: 0 });
@@ -240,7 +239,7 @@ getTipPosition(area:real_estate) {
 };
 
 clicked(area: real_estate) {
-  console.log('clicked area', area);
+  //console.log('clicked area', area);
   if(!area.fillStyle){
   this.setState({ hoveredArea: area});
   }
@@ -252,11 +251,11 @@ clickedOutside(evt: real_estate) {
   // this.setState({ msg: `You clicked on the image at coords ${JSON.stringify(coords)} !` });
 };
 enterArea(area: real_estate) {
-  console.log('enter area', area);
+  //console.log('enter area', area);
   this.setState({ hoveredArea: area});// msg: `You entered ${area.shape} at coords ${JSON.stringify(area.coords)} !` });
 };
 leaveArea(area: real_estate) {
-  console.log('leaveArea area', area);
+ // console.log('leaveArea area', area);
 
   this.setState({ hoveredArea: null});//, msg: `You leaved ${area.shape} at coords ${JSON.stringify(area.coords)} !` });
 };
@@ -283,22 +282,43 @@ handleResize() {
 handleChange = (selectedOption: any) => {
   const areas:real_estate[] = JSON.parse(JSON.stringify(this.state.areas));
 
-  if( selectedOption.value === "ALL"){
+//   if( selectedOption.value === "ALL"){
+//   areas.forEach(area => {
+//     if( area.strokeColor && area.strokeColor === "rgba(0,0,0,0.8)"){
+//       area.selected = null;
+//       area.strokeColor = null;
+//     }
+//   });
+
+//   }else {
+//     areas.forEach(area => {
+//   if(selectedOption.value === area.direction){
+//     area.selected = true;
+//     area.strokeColor = "rgba(0,0,0,0.8)"
+//   }else if( area.strokeColor && area.strokeColor === "rgba(0,0,0,0.8)"){
+//     area.selected = null;
+//     area.strokeColor = null;
+//   }
+// });
+// }
+
+if( selectedOption.value === "ALL"){
   areas.forEach(area => {
-    if( area.strokeColor && area.strokeColor === "rgba(255,0,0,0.3)"){
+    if( area.fillStyle && area.fillStyle === "rgba(1,0,0,0.9)"){
       area.selected = null;
-      area.strokeColor = null;
+      area.fillStyle = null;
     }
   });
 
   }else {
     areas.forEach(area => {
   if(selectedOption.value === area.direction){
-    area.selected = true;
-    area.strokeColor = "rgba(255,0,0,0.3)"
-  }else if( area.strokeColor && area.strokeColor === "rgba(255,0,0,0.3)"){
+    if(area.fillStyle && area.fillStyle === "rgba(1,0,0,0.9)"){
     area.selected = null;
-    area.strokeColor = null;
+    area.fillStyle = null;}
+  }else if( !(area.fillStyle && area.fillStyle === "rgba(0,0,0,0.9)")){
+    area.selected = true;
+    area.fillStyle = "rgba(1,0,0,0.9)";
   }
 });
 }
@@ -310,12 +330,12 @@ handleChange = (selectedOption: any) => {
 }
   public render() {
     const { selectedOption } = this.state;
-
+console.log("render",selectedOption)
     return (
       <ThemeProvider theme={{}}>
-      <div className="container">
+     <div style={{ position: 'relative' }}>
 
-      <Select
+      <Select 
         value={selectedOption}
         onChange={this.handleChange}
         options={options}

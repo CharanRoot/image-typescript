@@ -32,6 +32,10 @@
   position: relative;
 }
 
+.css-10nd86i {
+  z-index: 25;
+}
+
 .tooltip {
   position: absolute;
   color: #fff;
@@ -40,5 +44,5 @@
   transform: translate3d(-50%, -50%, 0);
   border-radius: 5px;
   pointer-events: none;
-  zIndex: 1000;
+  z-index: 1000;
 }

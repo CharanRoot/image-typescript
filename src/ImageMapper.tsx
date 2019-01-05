@@ -250,6 +250,7 @@ const styles: StyleCreator = () => ({
     zIndex: 2
   },
   img: {
+    position: "absolute",
     top: 0,
     left: 0,
     zIndex: 1,
